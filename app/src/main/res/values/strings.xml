@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Zipcode Buddy</string>
+    <string name="title"># Zip Code Buddy #</string>
+    <string name="enter_button">Submit Zip Code</string>
+    <string name="user_inputField">Please enter your postal code here, pal: </string>
+    <string name="user_inputError">Please enter a valid postal code PLZ</string>
+    <string name="pic_description">A picture of a navigation arrow</string>
+</resources>
