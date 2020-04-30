@@ -6,6 +6,47 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+
+    <EditText
+        android:id="@+id/user_inputField"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/user_inputField"
+        android:inputType="number"
+        android:autofillHints="AUTOFILL_HINT_POSTAL_CODE"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintVertical_bias="0.406" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="168sp"
+        android:layout_height="@dimen/title_height"
+        android:text="@string/title"
+        android:textSize="18sp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="89dp"
+        android:layout_height="168dp"
+        android:contentDescription="@string/pic_description"
+        android:src="@drawable/ic_navigation_black_24dp"
+
+        app:layout_constraintBottom_toTopOf="@id/title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/enter_button"
         android:layout_width="wrap_content"
@@ -14,45 +55,8 @@
 
         app:layout_constraintBottom_toTopOf="@id/user_inputField"
         app:layout_constraintLeft_toLeftOf="@id/title"
-        app:layout_constraintRight_toRightOf="@id/title" />
-
-    <EditText
-        android:id="@+id/user_inputField"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="@string/user_inputField"
-        android:inputType="number"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title"
-        app:layout_constraintVertical_bias="0.406" />
-
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="168dp"
-        android:layout_height="54dp"
-        android:text="@string/title"
-        android:textSize="18sp"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/icon"
-        android:layout_width="35dp"
-        android:layout_height="70dp"
-        android:contentDescription="A picture of a navigation arrow"
-        android:src="drawable/ic_navigation_black_24dp.xml"
-
-        app:layout_constraintBottom_toTopOf="@+id/title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintRight_toRightOf="@id/title"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
