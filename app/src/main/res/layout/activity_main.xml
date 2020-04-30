@@ -37,8 +37,8 @@
 
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="89dp"
-        android:layout_height="168dp"
+        android:layout_width="@dimen/image_width"
+        android:layout_height="@dimen/image_height"
         android:contentDescription="@string/pic_description"
         android:src="@drawable/ic_navigation_black_24dp"
 
