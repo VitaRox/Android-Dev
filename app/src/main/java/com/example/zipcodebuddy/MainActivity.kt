@@ -9,6 +9,9 @@ import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
 
+    // Create private field to hold reference to our ForecastRepo;
+    private val forecastRepository = ForecastRepository()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
