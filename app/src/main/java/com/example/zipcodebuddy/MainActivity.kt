@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.zipcodebuddy.details.ForecastDetailsActivity
+import com.example.zipcodebuddy.location.LocationEntryFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -29,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 
         tempDisplaySettingManager = TempDisplaySettingManager(this)
 
-        val zipcodeEditText: EditText = findViewById(R.id.user_inputField)
+        val zipcodeEditText: EditText = findViewById(R.id.zipcodeEditText)
         val enterButton: Button = findViewById(R.id.enter_button)
 
         enterButton.setOnClickListener {
@@ -70,6 +71,13 @@ class MainActivity : AppCompatActivity() {
         // If any loading takes too long, won't return after Activity has been
         // destroyed;
         forecastRepository.weeklyForecast.observe(this, weeklyForecastObserver)
+
+        // Tells where to add Fragment
+        supportFragmentManager
+            .beginTransaction()
+            .add(R.id.root, LocationEntryFragment())
+//            .addToBackStack()
+            .commit()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
