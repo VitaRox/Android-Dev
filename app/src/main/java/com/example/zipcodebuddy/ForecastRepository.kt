@@ -40,9 +40,9 @@ class ForecastRepository {
 
         // OR
         return when(temp) {
-            in Float.MIN_VALUE.rangeTo(0f) -> "Anything below 0 doesn't make sense."
-            in 0f.rangeTo(32f) -> "Way toooooooo cooooooold burrrrr *chatter chatter*"
-            in 32f.rangeTo(55f) -> "Balmy Seattle weather, yeaaahhhh.."
+            in Float.MIN_VALUE.rangeTo(0f) -> "Anything below 0 doesn't make sense"
+            in 0f.rangeTo(32f) -> "Way too coold burrrrr *chatter chatter*"
+            in 32f.rangeTo(55f) -> "Balmy Seattle weather, yeaaah"
             else -> "I'm afraid I can't do that, Dave."
         }
     }

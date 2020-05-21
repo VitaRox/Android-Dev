@@ -14,44 +14,21 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.zipcodebuddy.details.ForecastDetailsActivity
+import com.example.zipcodebuddy.forecast.CurrentForecastFragment
 import com.example.zipcodebuddy.location.LocationEntryFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), AppNavigator {
 
-    private val forecastRepository = ForecastRepository()
     private lateinit var tempDisplaySettingManager: TempDisplaySettingManager
-    // Create private field to hold reference to our ForecastRepo;
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         tempDisplaySettingManager = TempDisplaySettingManager(this)
-        
-        // Instantiate the container for the displayed forecasts;
-        val forecastList: RecyclerView = findViewById(R.id.forecastList)
-        forecastList.layoutManager = LinearLayoutManager(this)
-
-        // Handle our click feedback once we get it;
-        val dailyForecastAdapter = DailyForecastAdapter(tempDisplaySettingManager) { forecast ->
-            showForecastDetails(forecast)
-        }
-
-        forecastList.adapter = dailyForecastAdapter
-
-        // Notify us when updates occur;
-        val weeklyForecastObserver = Observer<List<DailyForecast>> {forecastItems ->
-            // Update our recycler view (our list adapter);
-            dailyForecastAdapter.submitList(forecastItems)
-        }
-
-        // 'This' is our Activity owner;
-        // All changes/updates will be bound to the lifecycle of the Activity;
-        // If any loading takes too long, won't return after Activity has been
-        // destroyed;
-        forecastRepository.weeklyForecast.observe(this, weeklyForecastObserver)
 
         // Adds in our Fragment manager;
         supportFragmentManager
@@ -79,33 +56,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // Use androidx.app.compat version
-    private fun showTempDisplaySettingDialog() {
-        // Fluent API: statements can be "chained together" using implicit reference to constructor;
-        val dialogBuilder = AlertDialog.Builder(this)
-            .setTitle("Choose Display Units")
-            .setMessage("Choose which temperature unit to use to display temperature")
-            .setPositiveButton("F°") {_, _ ->
-                tempDisplaySettingManager.updateSetting(TempDisplaySetting.Fahrenheit)
-            }
-            .setNeutralButton("C°") {_, _ ->
-                tempDisplaySettingManager.updateSetting(TempDisplaySetting.Celsius)
-            }
-            .setOnDismissListener{
-                Toast.makeText(this, "Setting will take effect on app restart", Toast.LENGTH_SHORT).show()
-            }
-
-        dialogBuilder.show()
+    // Whenever this is called by external class, this will load a forecast,
+    // displaying that data;
+    override fun navigateToCurrentForecast(zipcode: String) {
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragmentContainer, CurrentForecastFragment.newInstance(zipcode))
+            .commit()
     }
 
-
-
-
-    // Puts forecast info into the intent, then starts the Activity;
-    private fun showForecastDetails(forecast: DailyForecast) {
-        val forecastDetailsIntent = Intent(this, ForecastDetailsActivity::class.java)
-        forecastDetailsIntent.putExtra("key_temp", forecast.temp)
-        forecastDetailsIntent.putExtra("key_description", forecast.description)
-        startActivity(forecastDetailsIntent)
-    }
 }
