@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.zipcodebuddy.details.ForecastDetailsActivity
+import com.example.zipcodebuddy.location.LocationEntryFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -28,26 +29,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         tempDisplaySettingManager = TempDisplaySettingManager(this)
-
-        val zipcodeEditText: EditText = findViewById(R.id.user_inputField)
-        val enterButton: Button = findViewById(R.id.enter_button)
-
-        enterButton.setOnClickListener {
-            Toast.makeText(this, "Button clicked!", Toast.LENGTH_SHORT).show()
-
-            // Get value of what is entered into text box by user
-            // and store in new constant variable, converted to String;
-            val zipcode: String = zipcodeEditText.text.toString()
-
-            // Provide user input validation;
-            if (zipcode.length != 5) {
-//              error case:
-                Toast.makeText(this, R.string.user_inputError, Toast.LENGTH_SHORT).show()
-            } else {
-                forecastRepository.loadForecast(zipcode)
-            }
-        }
-
+        
         // Instantiate the container for the displayed forecasts;
         val forecastList: RecyclerView = findViewById(R.id.forecastList)
         forecastList.layoutManager = LinearLayoutManager(this)
@@ -70,6 +52,13 @@ class MainActivity : AppCompatActivity() {
         // If any loading takes too long, won't return after Activity has been
         // destroyed;
         forecastRepository.weeklyForecast.observe(this, weeklyForecastObserver)
+
+        // Adds in our Fragment manager;
+        supportFragmentManager
+            .beginTransaction()
+            .add(R.id.fragmentContainer, LocationEntryFragment())
+            .commit()
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

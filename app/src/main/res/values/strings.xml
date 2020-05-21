@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">AD 340</string>
-    <string name="title"># Zip Code Buddy #</string>
+    <string name="title">AD340 Weather</string>
     <string name="enter_button">Submit Zip Code</string>
     <string name="user_inputField">Please enter your postal code here, pal: </string>
     <string name="user_inputError">Please enter a valid postal code PLZ</string>

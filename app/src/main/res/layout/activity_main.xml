@@ -3,89 +3,34 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
 
-    <fragment
-        android:id="@+id/locationEntryFragment"
-        android:name="com.example.zipcodebuddy.location.LocationEntryFragment"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent=".3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout="@layout/fragment_location_entry" />
-
-    <EditText
-        android:id="@+id/user_inputField"
-        android:layout_width="410dp"
-        android:layout_height="47dp"
-        android:autofillHints="AUTOFILL_HINT_POSTAL_CODE"
-        android:hint="@string/user_inputField"
-        android:inputType="number"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.179" />
-
-    <TextView
-        android:id="@+id/title"
+    <FrameLayout
+        android:id="@+id/fragmentContainer"
         android:layout_width="0dp"
-        android:layout_height="@dimen/title_height"
-        android:text="@string/title"
-        android:textSize="18sp"
-        android:background="@color/colorAccent"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.33" />
-
-    <ImageView
-        android:id="@+id/icon"
-        android:layout_width="89dp"
-        android:layout_height="168dp"
-        android:contentDescription="@string/pic_description"
-        android:src="@drawable/ic_navigation_black_24dp"
-
-        app:layout_constraintBottom_toTopOf="@id/title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.202" />
-
-    <Button
-        android:id="@+id/enter_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/enter_button"
-
-        app:layout_constraintBottom_toTopOf="@id/user_inputField"
-        app:layout_constraintLeft_toLeftOf="@id/title"
-        app:layout_constraintRight_toRightOf="@id/title"
-        app:layout_constraintTop_toBottomOf="@id/title" />
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/forecastList"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:background="@color/razzle_dazzle"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/user_inputField"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/enter_button" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
