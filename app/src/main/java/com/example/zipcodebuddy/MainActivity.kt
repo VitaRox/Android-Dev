@@ -23,7 +23,6 @@ class MainActivity : AppCompatActivity(), AppNavigator {
 
     private lateinit var tempDisplaySettingManager: TempDisplaySettingManager
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -64,5 +63,13 @@ class MainActivity : AppCompatActivity(), AppNavigator {
             .replace(R.id.fragmentContainer, CurrentForecastFragment.newInstance(zipcode))
             .commit()
     }
+
+    override fun navigateToLocationEntry() {
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragmentContainer, LocationEntryFragment())
+            .commit()
+    }
+
 
 }

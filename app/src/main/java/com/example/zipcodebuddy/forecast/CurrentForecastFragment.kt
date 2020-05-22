@@ -1,5 +1,6 @@
 package com.example.zipcodebuddy.forecast
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.zipcodebuddy.*
 import com.example.zipcodebuddy.details.ForecastDetailsActivity
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
 /**
@@ -22,6 +24,15 @@ class CurrentForecastFragment : Fragment() {
     // Create private field to hold reference to our ForecastRepo;
     private val forecastRepository = ForecastRepository()
 
+    private lateinit var appNavigator: AppNavigator
+
+    // This is where the Fragment is added to the Activity;
+    // Provides access to the Activity, or context;
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        appNavigator = context as AppNavigator
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,8 +43,15 @@ class CurrentForecastFragment : Fragment() {
         // !! will crash it if a null value is passed in for KEY_ZIPCODE;
         // '?:' The Elvis operator; will return an empty string if null value passed in;
         val zipcode = arguments!!.getString(KEY_ZIPCODE) ?: ""
+
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_current_forecast, container, false)
+
+        // Connect button and add click listener;
+        val locationEntryButton: FloatingActionButton = view.findViewById(R.id.locationEntryButton)
+        locationEntryButton.setOnClickListener {
+            appNavigator.navigateToLocationEntry()
+        }
         // Instantiate the container for the displayed forecasts;
         val forecastList: RecyclerView = view.findViewById(R.id.forecastList)
         forecastList.layoutManager = LinearLayoutManager(requireContext())
