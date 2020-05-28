@@ -3,15 +3,15 @@ package com.example.zipcodebuddy.forecast
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.zipcodebuddy.*
-import com.example.zipcodebuddy.details.ForecastDetailsActivity
+import com.example.zipcodebuddy.details.ForecastDetailsFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
@@ -81,10 +81,7 @@ class CurrentForecastFragment : Fragment() {
 
     // Puts forecast info into the intent, then starts the Activity;
     private fun showForecastDetails(forecast: DailyForecast) {
-        val forecastDetailsIntent = Intent(requireContext(), ForecastDetailsActivity::class.java)
-        forecastDetailsIntent.putExtra("key_temp", forecast.temp)
-        forecastDetailsIntent.putExtra("key_description", forecast.description)
-        startActivity(forecastDetailsIntent)
+        appNavigator.navigateToForecastDetails(forecast)
     }
 
     // Object scoped to an instance of currentForecastFragment, in this case;
