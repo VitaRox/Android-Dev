@@ -29,11 +29,6 @@ class MainActivity : AppCompatActivity(), AppNavigator {
 
         tempDisplaySettingManager = TempDisplaySettingManager(this)
 
-        // Adds in our Fragment manager;
-        supportFragmentManager
-            .beginTransaction()
-            .add(R.id.fragmentContainer, LocationEntryFragment())
-            .commit()
 
     }
 
@@ -58,17 +53,19 @@ class MainActivity : AppCompatActivity(), AppNavigator {
     // Whenever this is called by external class, this will load a forecast,
     // displaying that data;
     override fun navigateToCurrentForecast(zipcode: String) {
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.fragmentContainer, CurrentForecastFragment.newInstance(zipcode))
-            .commit()
+
+
+//        supportFragmentManager
+//            .beginTransaction()
+//            .replace(R.id.fragmentContainer, CurrentForecastFragment.newInstance(zipcode))
+//            .commit()
     }
 
     override fun navigateToLocationEntry() {
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.fragmentContainer, LocationEntryFragment())
-            .commit()
+//        supportFragmentManager
+//            .beginTransaction()
+//            .replace(R.id.fragmentContainer, LocationEntryFragment())
+//            .commit()
     }
 
 
