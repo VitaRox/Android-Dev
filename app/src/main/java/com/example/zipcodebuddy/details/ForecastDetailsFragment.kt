@@ -14,6 +14,7 @@ import com.example.zipcodebuddy.TempDisplaySettingManager
 class ForecastDetailsFragment : Fragment() {
 
     private val args = ForecastDetailsFragmentArgs by navArgs()
+
     // 'lateinit' is a contract that it will be assigned a value later;
     private lateinit var tempDisplaySettingManager: TempDisplaySettingManager
 
@@ -38,7 +39,4 @@ class ForecastDetailsFragment : Fragment() {
 
         return layout
     }
-
-
-
 }
