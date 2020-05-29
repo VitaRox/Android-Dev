@@ -9,11 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.example.zipcodebuddy.R
 import com.example.zipcodebuddy.TempDisplaySettingManager
+import com.example.zipcodebuddy.formatTempForDisplay
 
 
 class ForecastDetailsFragment : Fragment() {
 
-    private val args = ForecastDetailsFragmentArgs by navArgs()
+    private val args: ForecastDetailsFragmentArgs by navArgs()
 
     // 'lateinit' is a contract that it will be assigned a value later;
     private lateinit var tempDisplaySettingManager: TempDisplaySettingManager
@@ -32,10 +33,8 @@ class ForecastDetailsFragment : Fragment() {
         val tempText = layout.findViewById<TextView>(R.id.tempText)
         val descriptionText = layout.findViewById<TextView>(R.id.descriptionText)
 
-//        val temp = intent.getFloatExtra("key_temp", 0f)
-//        tempText.text =
-//            formatTempForDisplay(temp, tempDisplaySettingManager.getTempDisplaySetting())
-//        descriptionText.text = "${intent.getStringExtra("key_description")}"
+        tempText.text = formatTempForDisplay(args.temp, tempDisplaySettingManager.getTempDisplaySetting())
+        descriptionText.text = args.description
 
         return layout
     }

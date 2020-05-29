@@ -19,6 +19,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 class CurrentForecastFragment : Fragment() {
 
     private lateinit var tempDisplaySettingManager: TempDisplaySettingManager
+
     // Create private field to hold reference to our ForecastRepo;
     private val forecastRepository = ForecastRepository()
 
@@ -72,7 +73,6 @@ class CurrentForecastFragment : Fragment() {
         // If any loading takes too long, won't return after Activity has been
         // destroyed;
         forecastRepository.weeklyForecast.observe(this, weeklyForecastObserver)
-
         forecastRepository.loadForecast(zipcode)
         return view
     }
