@@ -7,6 +7,8 @@
     <string name="pic_description">A picture of a navigation arrow</string>
     <string name="forecast_details">Forecast Details</string>
     <string name="unit_display_type_title">Display Units</string>
+    <string name="bottom_nav_label_today">Today</string>
+    <string name="bottom_nav_label_weekly">Weekly</string>
     <!--    Format our temperature values;-->
     <!--    %<number> indicates the number of the item in it, .2f means a float truncated to hundreds
 place, and $s tells it the second part (the text) is a string-->
