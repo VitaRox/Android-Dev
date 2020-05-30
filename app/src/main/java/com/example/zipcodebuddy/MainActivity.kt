@@ -6,14 +6,24 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
 import com.example.zipcodebuddy.forecast.CurrentForecastFragmentDirections
 import com.example.zipcodebuddy.location.LocationEntryFragmentDirections
 
 
+/*
+There is a bug in Android Studio which makes it impossible to make setupWithNavController
+(line 32 below) work or be findable or importable;
+You must manually add in these lines:
+import androidx.appcompat.widget.Toolbar
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
+*/
 class MainActivity : AppCompatActivity(), AppNavigator {
 
     private lateinit var tempDisplaySettingManager: TempDisplaySettingManager
@@ -23,6 +33,7 @@ class MainActivity : AppCompatActivity(), AppNavigator {
         setContentView(R.layout.activity_main)
 
         tempDisplaySettingManager = TempDisplaySettingManager(this)
+
         val navController = findNavController(R.id.nav_host_fragment)
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         findViewById<Toolbar>(R.id.toolbar).setupWithNavController(navController, appBarConfiguration)
@@ -46,8 +57,6 @@ class MainActivity : AppCompatActivity(), AppNavigator {
         }
     }
 
-
-
     // Whenever this is called by external class, this will load a forecast,
     // displaying that data;
     override fun navigateToCurrentForecast(zipcode: String) {
@@ -67,3 +76,4 @@ class MainActivity : AppCompatActivity(), AppNavigator {
 
 
 }
+
