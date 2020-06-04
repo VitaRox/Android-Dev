@@ -2,7 +2,6 @@ package com.example.zipcodebuddy
 
 import android.content.Context
 
-
 enum class TempDisplaySetting {
     Fahrenheit, Celsius
 }

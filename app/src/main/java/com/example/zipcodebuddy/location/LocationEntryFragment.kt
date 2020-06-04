@@ -9,14 +9,22 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.example.zipcodebuddy.Location
+import com.example.zipcodebuddy.LocationRepository
 import com.example.zipcodebuddy.R
 /**
  * A simple [Fragment] subclass.
  */
 class LocationEntryFragment : Fragment() {
 
+    // Create a new property for a location repository;
+    private lateinit var locationRepository: LocationRepository
+
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?
+    ): View? {
+        locationRepository = LocationRepository(requireContext())
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_location_entry, container, false)
 
@@ -35,6 +43,8 @@ class LocationEntryFragment : Fragment() {
 //              error case:
                 Toast.makeText(requireContext(), R.string.user_inputError, Toast.LENGTH_SHORT).show()
             } else {
+                // Now whenever we load a zipcode, we will save in our LocationRepo;
+                locationRepository.saveLocation(Location.Zipcode(zipcode))
                 findNavController().navigateUp()
             }
         }

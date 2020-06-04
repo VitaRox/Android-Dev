@@ -1,4 +1,6 @@
 package com.example.zipcodebuddy
 
-data class DailyForecast(val temp: Float, val description: String) {
+import java.util.*
+
+data class DailyForecast(val date: Date, val temp: Float, val description: String) {
 }

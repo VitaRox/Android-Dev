@@ -1,6 +1,5 @@
 package com.example.zipcodebuddy.forecast
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -21,6 +20,7 @@ class WeeklyForecastFragment : Fragment() {
 
     // Create private field to hold reference to our ForecastRepo;
     private val forecastRepository = ForecastRepository()
+    private lateinit var locationRepository: LocationRepository
     private lateinit var tempDisplaySettingManager: TempDisplaySettingManager
 
 
@@ -52,7 +52,7 @@ class WeeklyForecastFragment : Fragment() {
             // Update our recycler view (our list adapter);
             dailyForecastAdapter.submitList(forecastItems)
         }
-        forecastRepository.weeklyForecast.observe(this, weeklyForecastObserver)
+        forecastRepository.weeklyForecast.observe(viewLifecycleOwner, weeklyForecastObserver)
 
         // Connect button and add click listener;
         val locationEntryButton: FloatingActionButton = view.findViewById(R.id.locationEntryButton)
@@ -60,8 +60,15 @@ class WeeklyForecastFragment : Fragment() {
             showLocationEntry()
         }
 
-        forecastRepository.loadForecast(zipcode)
-
+        // Made to update only when zipcode updates;
+        locationRepository = LocationRepository(requireContext())
+        val savedLocationObserver = Observer<Location> {savedLocation ->
+            when (savedLocation) {
+                is Location.Zipcode -> forecastRepository.loadWeeklyForecast(savedLocation.zipcode)
+            }
+        }
+        // WeeklyForecastFragment will now update its UI whenever savedLocation changes;
+        locationRepository.savedLocation.observe(viewLifecycleOwner, savedLocationObserver)
         return view
     }
 

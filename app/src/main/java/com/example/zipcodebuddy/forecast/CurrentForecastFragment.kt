@@ -1,6 +1,5 @@
 package com.example.zipcodebuddy.forecast
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,10 +18,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
  */
 class CurrentForecastFragment : Fragment() {
 
-    private lateinit var tempDisplaySettingManager: TempDisplaySettingManager
-
     // Create private field to hold reference to our ForecastRepo;
     private val forecastRepository = ForecastRepository()
+    private lateinit var locationRepository: LocationRepository
+    private lateinit var tempDisplaySettingManager: TempDisplaySettingManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,15 +49,15 @@ class CurrentForecastFragment : Fragment() {
         forecastList.adapter = dailyForecastAdapter
 
         // Notify us when updates occur;
-        val weeklyForecastObserver = Observer<List<DailyForecast>> { forecastItems ->
-            // Update our recycler view (our list adapter);
-            dailyForecastAdapter.submitList(forecastItems)
+        val currentForecastObserver = Observer<DailyForecast> {forecastItem ->
+            // Update our list adapter;
+            dailyForecastAdapter.submitList(listOf(forecastItem))
         }
-        // 'This' is our Activity owner;
+
         // All changes/updates will be bound to the lifecycle of the Activity;
         // If any loading takes too long, won't return after Activity has been
         // destroyed;
-        forecastRepository.weeklyForecast.observe(this, weeklyForecastObserver)
+        forecastRepository.currentForecast.observe(viewLifecycleOwner, currentForecastObserver)
 
         // Connect button and add click listener;
         val locationEntryButton: FloatingActionButton = view.findViewById(R.id.locationEntryButton)
@@ -66,7 +65,16 @@ class CurrentForecastFragment : Fragment() {
             showLocationEntry()
         }
 
-        forecastRepository.loadForecast(zipcode)
+        // Listen for changes in this savedLocation value;
+        // Refresh UI upon update to value of savedLocation;
+        locationRepository = LocationRepository(requireContext())
+        val savedLocationObserver = Observer<Location> {savedLocation ->
+            when (savedLocation) {
+                is Location.Zipcode -> forecastRepository.loadCurrentForecast(savedLocation.zipcode)
+            }
+        }
+        locationRepository.savedLocation.observe(viewLifecycleOwner,  savedLocationObserver)
+
         return view
     }
 

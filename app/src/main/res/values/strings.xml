@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AD 340</string>
+    <string name="app_name">AD 340 Weather</string>
     <string name="title">AD340 Weather</string>
     <string name="enter_button">Submit Zip Code</string>
     <string name="user_inputField">Please enter your postal code here, pal: </string>
@@ -14,6 +14,4 @@
 place, and $s tells it the second part (the text) is a string-->
     <string name="forecast_clicked_format">Forecast: %1$.2f %2$s</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
