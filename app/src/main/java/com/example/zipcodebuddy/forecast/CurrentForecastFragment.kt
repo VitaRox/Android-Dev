@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.zipcodebuddy.*
+import com.example.zipcodebuddy.api.CurrentWeather
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
@@ -30,34 +30,23 @@ class CurrentForecastFragment : Fragment() {
 
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_current_forecast, container, false)
-
+        val locationName: TextView = view.findViewById(R.id.locationName)
+        val tempText: TextView = view.findViewById(R.id.tempText)
         // Arguments gives access to Bundle passed into this instance;
         // !! will crash it if a null value is passed in for KEY_ZIPCODE;
         // '?:' The Elvis operator; will return an empty string if null value passed in;
         val zipcode = arguments?.getString(KEY_ZIPCODE) ?: ""
         tempDisplaySettingManager = TempDisplaySettingManager(requireContext())
 
-        // Instantiate the container for the displayed forecasts;
-        val forecastList: RecyclerView = view.findViewById(R.id.forecastList)
-        forecastList.layoutManager = LinearLayoutManager(requireContext())
-
-        // Handle our click feedback once we get it;
-        val dailyForecastAdapter = DailyForecastAdapter(tempDisplaySettingManager) { forecast ->
-            showForecastDetails(forecast)
+        // Create the observer which updates the UI in response to forecast updates;
+        val currentWeatherObserver = Observer<CurrentWeather> { weather ->
+            locationName.text = weather.name
+            tempText.text = formatTempForDisplay(weather.forecast.temp, tempDisplaySettingManager.getTempDisplaySetting())
         }
-
-        forecastList.adapter = dailyForecastAdapter
-
-        // Notify us when updates occur;
-        val currentForecastObserver = Observer<DailyForecast> {forecastItem ->
-            // Update our list adapter;
-            dailyForecastAdapter.submitList(listOf(forecastItem))
-        }
-
         // All changes/updates will be bound to the lifecycle of the Activity;
         // If any loading takes too long, won't return after Activity has been
         // destroyed;
-        forecastRepository.currentWeather.observe(viewLifecycleOwner, currentForecastObserver)
+        forecastRepository.currentWeather.observe(viewLifecycleOwner, currentWeatherObserver)
 
         // Connect button and add click listener;
         val locationEntryButton: FloatingActionButton = view.findViewById(R.id.locationEntryButton)

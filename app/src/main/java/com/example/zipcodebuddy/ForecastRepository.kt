@@ -1,4 +1,5 @@
 package com.example.zipcodebuddy
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -43,12 +44,13 @@ class ForecastRepository {
     }
 
     fun loadCurrentForecast(zipcode: String) {
-        val call = createOpenWeatherMapService().currentWeather(zipcode, "imperial", "apikey")
+        val call = createOpenWeatherMapService().currentWeather(zipcode, "imperial", BuildConfig.OPEN_WEATHER_MAP_API_KEY)
         call.enqueue(object : Callback<CurrentWeather> {
             override fun onFailure(call: Call<CurrentWeather>, t: Throwable) {
                 Log.e(ForecastRepository::class.java.simpleName, "error loading current weather", t)
             }
 
+            @SuppressLint("NullSafeMutableLiveData")
             override fun onResponse(call: Call<CurrentWeather>, response: Response<CurrentWeather>) {
                 val weatherResponse= response.body()
                 if (weatherResponse != null)  {
