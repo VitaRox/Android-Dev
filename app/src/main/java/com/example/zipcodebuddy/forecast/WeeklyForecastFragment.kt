@@ -10,6 +10,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.zipcodebuddy.*
+import com.example.zipcodebuddy.api.DailyForecast
+import com.example.zipcodebuddy.api.WeeklyForecast
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
@@ -48,9 +50,9 @@ class WeeklyForecastFragment : Fragment() {
         forecastList.adapter = dailyForecastAdapter
 
         // Notify us when updates occur;
-        val weeklyForecastObserver = Observer<List<DailyForecast>> { forecastItems ->
+        val weeklyForecastObserver = Observer<WeeklyForecast> { weeklyForecast ->
             // Update our recycler view (our list adapter);
-            dailyForecastAdapter.submitList(forecastItems)
+            dailyForecastAdapter.submitList(weeklyForecast.daily)
         }
         forecastRepository.weeklyForecast.observe(viewLifecycleOwner, weeklyForecastObserver)
 
@@ -79,7 +81,10 @@ class WeeklyForecastFragment : Fragment() {
 
     // Puts forecast info into the intent, then starts the Activity;
     private fun showForecastDetails(forecast: DailyForecast) {
-        val action = WeeklyForecastFragmentDirections.actionWeeklyForecastFragmentToForecastDetailsFragment(forecast.temp, forecast.description)
+        val temp = forecast.temp.max
+        val description = forecast.weather[0].description
+        
+        val action = WeeklyForecastFragmentDirections.actionWeeklyForecastFragmentToForecastDetailsFragment(temp, description)
         findNavController().navigate(action)
     }
 

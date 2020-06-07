@@ -23,13 +23,50 @@ class ForecastRepository {
     Make 'private', since can alter data and pose potential security risk
     otherwise;
     */
-    private val _weeklyForecast = MutableLiveData<List<WeeklyForecast>>()
+    private val _weeklyForecast = MutableLiveData<WeeklyForecast>()
     // weeklyForecast is immutable but can provide data to user view;
-    val weeklyForecast: LiveData<List<WeeklyForecast>> = _weeklyForecast
+    val weeklyForecast: LiveData<WeeklyForecast> = _weeklyForecast
 
 
     fun loadWeeklyForecast(zipcode: String) {
+        val call = createOpenWeatherMapService().currentWeather(zipcode, "imperial", BuildConfig.OPEN_WEATHER_MAP_API_KEY)
+        call.enqueue(object : Callback<CurrentWeather> {
+            override fun onFailure(call: Call<CurrentWeather>, t: Throwable) {
+                Log.e(ForecastRepository::class.java.simpleName, "error loading location for weekly forecast", t)
+            }
 
+            override fun onResponse(call: Call<CurrentWeather>, response: Response<CurrentWeather>) {
+                val weatherResponse = response.body()
+                if (weatherResponse != null) {
+                    // Load 7-day forecast;
+                    val forecastCall = createOpenWeatherMapService().sevenDayForecast(
+                        lat = weatherResponse.coord.lat,
+                        lon = weatherResponse.coord.lon,
+                        exclude = "currently, minutely, hourly",
+                        units = "imperial",
+                        apiKey =  BuildConfig.OPEN_WEATHER_MAP_API_KEY
+                    )
+                    forecastCall.enqueue(object : Callback<WeeklyForecast> {
+                        override fun onFailure(call: Call<WeeklyForecast>, t: Throwable) {
+                            Log.e(
+                                ForecastRepository::class.java.simpleName,
+                                "Error loading weekly forecast."
+                            )
+                        }
+
+                        override fun onResponse(
+                            call: Call<WeeklyForecast>,
+                            response: Response<WeeklyForecast>
+                        ) {
+                            val weeklyForecastResponse = response.body()
+                            if (weeklyForecastResponse != null) {
+                                _weeklyForecast.value = weeklyForecastResponse
+                            }
+                        }
+                    })
+                }
+            }
+        })
     }
 
     fun loadCurrentForecast(zipcode: String) {
@@ -59,5 +96,9 @@ class ForecastRepository {
             else -> "I'm afraid I can't do that, Dave."
         }
     }
+
+}
+
+private fun <T> Call<T>.enqueue(callback: Callback<T>, function: () -> Unit) {
 
 }

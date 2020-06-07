@@ -72,12 +72,6 @@ class CurrentForecastFragment : Fragment() {
         findNavController().navigate(action)
     }
 
-    // Puts forecast info into the intent, then starts the Activity;
-    private fun showForecastDetails(forecast: DailyForecast) {
-        val action = CurrentForecastFragmentDirections.actionCurrentForecastFragmentToForecastDetailsFragment(forecast.temp, forecast.description)
-        findNavController().navigate(action)
-    }
-
     // Object scoped to an instance of currentForecastFragment, in this case;
     // Can replicate the behavior of static methods in Java;
     companion object {
