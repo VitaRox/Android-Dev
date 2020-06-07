@@ -57,7 +57,7 @@ class CurrentForecastFragment : Fragment() {
         // All changes/updates will be bound to the lifecycle of the Activity;
         // If any loading takes too long, won't return after Activity has been
         // destroyed;
-        forecastRepository.currentForecast.observe(viewLifecycleOwner, currentForecastObserver)
+        forecastRepository.currentWeather.observe(viewLifecycleOwner, currentForecastObserver)
 
         // Connect button and add click listener;
         val locationEntryButton: FloatingActionButton = view.findViewById(R.id.locationEntryButton)

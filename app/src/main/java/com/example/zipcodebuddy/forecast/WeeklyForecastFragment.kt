@@ -77,7 +77,6 @@ class WeeklyForecastFragment : Fragment() {
         findNavController().navigate(action)
     }
 
-
     // Puts forecast info into the intent, then starts the Activity;
     private fun showForecastDetails(forecast: DailyForecast) {
         val action = WeeklyForecastFragmentDirections.actionWeeklyForecastFragmentToForecastDetailsFragment(forecast.temp, forecast.description)

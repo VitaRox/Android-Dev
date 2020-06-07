@@ -1,6 +1,12 @@
 package com.example.zipcodebuddy
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.zipcodebuddy.api.CurrentWeather
+import com.example.zipcodebuddy.api.createOpenWeatherMapService
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.*
 import kotlin.random.Random
 
@@ -8,9 +14,8 @@ import kotlin.random.Random
 // Load data, provide data to Activity;
 class ForecastRepository {
 
-    private val _currentForecast = MutableLiveData<DailyForecast>()
-    val currentForecast:  LiveData<DailyForecast> = _currentForecast
-
+    private val _currentWeather = MutableLiveData<CurrentWeather>()
+    val currentWeather:  LiveData<CurrentWeather> = _currentWeather
 
     /*
     Provide data from back to display to user;
@@ -25,7 +30,6 @@ class ForecastRepository {
 
     fun loadWeeklyForecast(zipcode: String) {
         // Load 10 random values representing forecasts;
-
         // Create the list;
         val randomValues = List(7){ Random.nextFloat().rem(100) * 100}
 
@@ -39,10 +43,19 @@ class ForecastRepository {
     }
 
     fun loadCurrentForecast(zipcode: String) {
-        // Produce random val between 0 and 100
-        val randomTemp = Random.nextFloat().rem(100) * 100
-        val forecast = DailyForecast(Date(), randomTemp, getTempDescription(randomTemp))
-        _currentForecast.value = forecast
+        val call = createOpenWeatherMapService().currentWeather(zipcode, "imperial", "apikey")
+        call.enqueue(object : Callback<CurrentWeather> {
+            override fun onFailure(call: Call<CurrentWeather>, t: Throwable) {
+                Log.e(ForecastRepository::class.java.simpleName, "error loading current weather", t)
+            }
+
+            override fun onResponse(call: Call<CurrentWeather>, response: Response<CurrentWeather>) {
+                val weatherResponse= response.body()
+                if (weatherResponse != null)  {
+                    _currentWeather.value = weatherResponse
+                }
+            }
+        })
     }
 
     // Fetch the written description in accordance to the range the given temp falls in;
