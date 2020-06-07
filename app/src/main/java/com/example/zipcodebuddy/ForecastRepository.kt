@@ -4,12 +4,11 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.zipcodebuddy.api.CurrentWeather
+import com.example.zipcodebuddy.api.WeeklyForecast
 import com.example.zipcodebuddy.api.createOpenWeatherMapService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.*
-import kotlin.random.Random
 
 
 // Load data, provide data to Activity;
@@ -24,23 +23,13 @@ class ForecastRepository {
     Make 'private', since can alter data and pose potential security risk
     otherwise;
     */
-    private val _weeklyForecast = MutableLiveData<List<DailyForecast>>()
+    private val _weeklyForecast = MutableLiveData<List<WeeklyForecast>>()
     // weeklyForecast is immutable but can provide data to user view;
-    val weeklyForecast: LiveData<List<DailyForecast>> = _weeklyForecast
+    val weeklyForecast: LiveData<List<WeeklyForecast>> = _weeklyForecast
 
 
     fun loadWeeklyForecast(zipcode: String) {
-        // Load 10 random values representing forecasts;
-        // Create the list;
-        val randomValues = List(7){ Random.nextFloat().rem(100) * 100}
 
-        // Populate the list with the data to display to the user;
-        val forecastItems = randomValues.map{ temp ->
-            DailyForecast(Date(), temp, getTempDescription(temp))
-        }
-        // Set the value of the private _weeklyForecast; immutable, but destroyed and re-created
-        // whenever a new Activity begun;
-        _weeklyForecast.setValue(forecastItems)
     }
 
     fun loadCurrentForecast(zipcode: String) {
