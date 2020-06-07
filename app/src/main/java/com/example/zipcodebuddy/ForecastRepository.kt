@@ -54,6 +54,7 @@ class ForecastRepository {
                             )
                         }
 
+                        @SuppressLint("NullSafeMutableLiveData")
                         override fun onResponse(
                             call: Call<WeeklyForecast>,
                             response: Response<WeeklyForecast>
