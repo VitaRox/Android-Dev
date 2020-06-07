@@ -3,10 +3,12 @@ package com.example.zipcodebuddy
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import coil.api.load
 import com.example.zipcodebuddy.api.DailyForecast
 import java.text.SimpleDateFormat
 import java.util.*
@@ -23,12 +25,16 @@ class DailyForecastViewHolder(
     private val tempText = view.findViewById<TextView>(R.id.tempText)
     private val descriptionText: TextView = view.findViewById(R.id.descriptionText)
     private val dateText = view.findViewById<TextView>(R.id.dateText)
+    private val forecastIcon = view.findViewById<ImageView>(R.id.forecastIcon)
 
     fun bind(dailyForecast: DailyForecast) {
         // Format our forecasts to have fewer trailing decimals;
         tempText.text = formatTempForDisplay(dailyForecast.temp.max, tempDisplaySettingManager.getTempDisplaySetting())
         descriptionText.text = dailyForecast.weather[0].description
         dateText.text = DATE_FORMAT.format(Date(dailyForecast.date * 1000))
+
+        val iconId = dailyForecast.weather[0].icon
+        forecastIcon.load("http://openweathermap.org/img/wn/${iconId}@2x.png")
     }
 }
 
