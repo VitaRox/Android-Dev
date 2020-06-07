@@ -47,9 +47,7 @@ class ForecastRepository {
 
     // Fetch the written description in accordance to the range the given temp falls in;
     private fun getTempDescription(temp: Float) : String {
-//        return if(temp < 75) "It's too dang cold!" else "It's hot, but it's a DRY heat."
 
-        // OR
         return when(temp) {
             in Float.MIN_VALUE.rangeTo(0f) -> "Anything below 0 doesn't make sense"
             in 0f.rangeTo(32f) -> "Way too coold burrrrr *chatter chatter*"
