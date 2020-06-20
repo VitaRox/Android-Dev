@@ -9,5 +9,5 @@ data class CurrentWeather(
     val name: String,
     val coord: Coordinates,
     // Json response field called main, map to forecast property;
-    @field: Json(name = "main") val forecast: Forecast
+    @field:Json(name = "main") val forecast: Forecast
 )

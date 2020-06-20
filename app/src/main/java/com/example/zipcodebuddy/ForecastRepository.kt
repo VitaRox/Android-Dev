@@ -3,6 +3,7 @@ import android.annotation.SuppressLint
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.zipcodebuddy.BuildConfig.OPEN_WEATHER_MAP_API_KEY
 import com.example.zipcodebuddy.api.CurrentWeather
 import com.example.zipcodebuddy.api.WeeklyForecast
 import com.example.zipcodebuddy.api.createOpenWeatherMapService
@@ -29,7 +30,7 @@ class ForecastRepository {
 
 
     fun loadWeeklyForecast(zipcode: String) {
-        val call = createOpenWeatherMapService().currentWeather(zipcode, "imperial", BuildConfig.OPEN_WEATHER_MAP_API_KEY)
+        val call = createOpenWeatherMapService().currentWeather(zipcode, "imperial", OPEN_WEATHER_MAP_API_KEY)
         call.enqueue(object : Callback<CurrentWeather> {
             override fun onFailure(call: Call<CurrentWeather>, t: Throwable) {
                 Log.e(ForecastRepository::class.java.simpleName, "error loading location for weekly forecast", t)
@@ -44,7 +45,7 @@ class ForecastRepository {
                         lon = weatherResponse.coord.lon,
                         exclude = "currently, minutely, hourly",
                         units = "imperial",
-                        apiKey =  BuildConfig.OPEN_WEATHER_MAP_API_KEY
+                        apiKey =  OPEN_WEATHER_MAP_API_KEY
                     )
                     forecastCall.enqueue(object : Callback<WeeklyForecast> {
                         override fun onFailure(call: Call<WeeklyForecast>, t: Throwable) {
@@ -71,8 +72,9 @@ class ForecastRepository {
     }
 
     fun loadCurrentForecast(zipcode: String) {
-        val call = createOpenWeatherMapService().currentWeather(zipcode, "imperial", BuildConfig.OPEN_WEATHER_MAP_API_KEY)
+        val call = createOpenWeatherMapService().currentWeather(zipcode, "imperial", OPEN_WEATHER_MAP_API_KEY)
         call.enqueue(object : Callback<CurrentWeather> {
+            
             override fun onFailure(call: Call<CurrentWeather>, t: Throwable) {
                 Log.e(ForecastRepository::class.java.simpleName, "error loading current weather", t)
             }
@@ -97,7 +99,6 @@ class ForecastRepository {
             else -> "I'm afraid I can't do that, Dave."
         }
     }
-
 }
 
 private fun <T> Call<T>.enqueue(callback: Callback<T>, function: () -> Unit) {

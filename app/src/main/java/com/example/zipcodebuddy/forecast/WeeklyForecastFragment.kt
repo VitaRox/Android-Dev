@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.zipcodebuddy.*
+import com.example.zipcodebuddy.Location.Zipcode
 import com.example.zipcodebuddy.api.DailyForecast
 import com.example.zipcodebuddy.api.WeeklyForecast
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -66,7 +67,7 @@ class WeeklyForecastFragment : Fragment() {
         locationRepository = LocationRepository(requireContext())
         val savedLocationObserver = Observer<Location> {savedLocation ->
             when (savedLocation) {
-                is Location.Zipcode -> forecastRepository.loadWeeklyForecast(savedLocation.zipcode)
+                is Zipcode -> forecastRepository.loadWeeklyForecast(zipcode)
             }
         }
         // WeeklyForecastFragment will now update its UI whenever savedLocation changes;
@@ -83,8 +84,9 @@ class WeeklyForecastFragment : Fragment() {
     private fun showForecastDetails(forecast: DailyForecast) {
         val temp = forecast.temp.max
         val description = forecast.weather[0].description
-        
-        val action = WeeklyForecastFragmentDirections.actionWeeklyForecastFragmentToForecastDetailsFragment(temp, description)
+        val date: Long = forecast.date
+        val icon: String = forecast.weather[0].icon
+        val action = WeeklyForecastFragmentDirections.actionWeeklyForecastFragmentToForecastDetailsFragment(temp, description, date, icon)
         findNavController().navigate(action)
     }
 

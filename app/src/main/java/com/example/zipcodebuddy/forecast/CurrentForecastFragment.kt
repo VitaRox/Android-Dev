@@ -23,6 +23,8 @@ class CurrentForecastFragment : Fragment() {
     private lateinit var locationRepository: LocationRepository
     private lateinit var tempDisplaySettingManager: TempDisplaySettingManager
 
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,17 +34,21 @@ class CurrentForecastFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_current_forecast, container, false)
         val locationName: TextView = view.findViewById(R.id.locationName)
         val tempText: TextView = view.findViewById(R.id.tempText)
+
         // Arguments gives access to Bundle passed into this instance;
         // !! will crash it if a null value is passed in for KEY_ZIPCODE;
         // '?:' The Elvis operator; will return an empty string if null value passed in;
         val zipcode = arguments?.getString(KEY_ZIPCODE) ?: ""
+
         tempDisplaySettingManager = TempDisplaySettingManager(requireContext())
 
         // Create the observer which updates the UI in response to forecast updates;
         val currentWeatherObserver = Observer<CurrentWeather> { weather ->
             locationName.text = weather.name
             tempText.text = formatTempForDisplay(weather.forecast.temp, tempDisplaySettingManager.getTempDisplaySetting())
+
         }
+
         // All changes/updates will be bound to the lifecycle of the Activity;
         // If any loading takes too long, won't return after Activity has been
         // destroyed;

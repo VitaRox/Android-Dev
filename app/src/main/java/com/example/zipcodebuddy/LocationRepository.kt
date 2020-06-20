@@ -18,6 +18,7 @@ class LocationRepository(context: Context) {
     val savedLocation: LiveData<Location> = _savedLocation
 
 
+    // Whenever a LocationRepo is created, this is run;
     init {
         preferences.registerOnSharedPreferenceChangeListener {sharedPreferences, key ->
             if(key != KEY_ZIPCODE) return@registerOnSharedPreferenceChangeListener

@@ -15,8 +15,6 @@ import java.util.*
 
 private val DATE_FORMAT = SimpleDateFormat("MM-dd-yyyy")
 
-
-
 class DailyForecastViewHolder(
     view: View,
     private val tempDisplaySettingManager: TempDisplaySettingManager
