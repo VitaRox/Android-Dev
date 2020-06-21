@@ -24,8 +24,8 @@ interface OpenWeatherMapService {
     @GET("/data/2.5/weather")
     fun currentWeather(
         @Query("zip") zipcode: String,
-        @Query("appid") apiKey: String,
-        @Query("units") units: String
+        @Query("units") units: String,
+        @Query("appid") apiKey: String
     ): Call<CurrentWeather>
 
     /**
