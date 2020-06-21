@@ -48,12 +48,12 @@
         android:id="@+id/weeklyForecastFragment"
         android:name="com.example.zipcodebuddy.forecast.WeeklyForecastFragment"
         android:label="WeeklyForecastFragment"
-        tools:layout="@layout/fragment_weekly_forecast">
-        <action
-            android:id="@+id/action_weeklyForecastFragment_to_forecastDetailsFragment"
-            app:destination="@id/forecastDetailsFragment" />
+        tools:layout="@layout/fragment_weekly_forecast" >
         <action
             android:id="@+id/action_weeklyForecastFragment_to_locationEntryFragment"
             app:destination="@id/locationEntryFragment" />
+        <action
+            android:id="@+id/action_weeklyForecastFragment_to_forecastDetailsFragment"
+            app:destination="@id/forecastDetailsFragment" />
     </fragment>
 </navigation>

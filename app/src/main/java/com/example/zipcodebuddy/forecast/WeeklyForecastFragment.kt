@@ -10,14 +10,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.zipcodebuddy.*
-import com.example.zipcodebuddy.Location.Zipcode
 import com.example.zipcodebuddy.api.DailyForecast
 import com.example.zipcodebuddy.api.WeeklyForecast
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
 /**
- * A simple [Fragment] subclass.
+ * Displays the 7-day forecast for the current saved location;
  */
 class WeeklyForecastFragment : Fragment() {
 
@@ -67,7 +66,7 @@ class WeeklyForecastFragment : Fragment() {
         locationRepository = LocationRepository(requireContext())
         val savedLocationObserver = Observer<Location> {savedLocation ->
             when (savedLocation) {
-                is Zipcode -> forecastRepository.loadWeeklyForecast(zipcode)
+                is Location.Zipcode -> forecastRepository.loadWeeklyForecast(savedLocation.zipcode)
             }
         }
         // WeeklyForecastFragment will now update its UI whenever savedLocation changes;

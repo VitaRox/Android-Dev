@@ -13,7 +13,8 @@ import com.example.zipcodebuddy.Location
 import com.example.zipcodebuddy.LocationRepository
 import com.example.zipcodebuddy.R
 /**
- * A simple [Fragment] subclass.
+ * Allows user to save the location using zipcode;
+ * This location is then used to determine which forecast to load;
  */
 class LocationEntryFragment : Fragment() {
 

@@ -35,11 +35,6 @@ class CurrentForecastFragment : Fragment() {
         val locationName: TextView = view.findViewById(R.id.locationName)
         val tempText: TextView = view.findViewById(R.id.tempText)
 
-        // Arguments gives access to Bundle passed into this instance;
-        // !! will crash it if a null value is passed in for KEY_ZIPCODE;
-        // '?:' The Elvis operator; will return an empty string if null value passed in;
-        val zipcode = arguments?.getString(KEY_ZIPCODE) ?: ""
-
         tempDisplaySettingManager = TempDisplaySettingManager(requireContext())
 
         // Create the observer which updates the UI in response to forecast updates;
@@ -76,23 +71,6 @@ class CurrentForecastFragment : Fragment() {
     private fun showLocationEntry() {
         val action = CurrentForecastFragmentDirections.actionCurrentForecastFragmentToLocationEntryFragment()
         findNavController().navigate(action)
-    }
-
-    // Object scoped to an instance of currentForecastFragment, in this case;
-    // Can replicate the behavior of static methods in Java;
-    companion object {
-        const val KEY_ZIPCODE = "key_zipcode"
-
-        fun newInstance(zipcode: String) : CurrentForecastFragment {
-            val fragment = CurrentForecastFragment()
-
-            // Bundle: simple class to pass on key-value pairs
-            val args = Bundle()
-            args.putString(KEY_ZIPCODE, zipcode)
-            fragment.arguments = args
-
-            return fragment
-        }
     }
 
 }

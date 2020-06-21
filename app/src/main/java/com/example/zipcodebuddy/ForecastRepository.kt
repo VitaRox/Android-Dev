@@ -45,7 +45,7 @@ class ForecastRepository {
                         lon = weatherResponse.coord.lon,
                         exclude = "currently, minutely, hourly",
                         units = "imperial",
-                        apiKey =  OPEN_WEATHER_MAP_API_KEY
+                        apiKey = OPEN_WEATHER_MAP_API_KEY
                     )
                     forecastCall.enqueue(object : Callback<WeeklyForecast> {
                         override fun onFailure(call: Call<WeeklyForecast>, t: Throwable) {
