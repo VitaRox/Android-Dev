@@ -19,7 +19,7 @@ private val DATE_FORMAT = SimpleDateFormat("MM-dd-yyyy")
 class ForecastDetailsFragment : Fragment() {
 
     private val args: ForecastDetailsFragmentArgs by navArgs()
-
+    private val viewModel = ForecastDetailsViewModel()
     private var _binding: FragmentForecastDetailsBinding? = null
     // Property only valid between onCreateView and onDestroyView;
     // !! enforces the type of the binding property to be non-null;
@@ -43,6 +43,7 @@ class ForecastDetailsFragment : Fragment() {
         binding.descriptionText.text = args.description
         binding.dateText.text = DATE_FORMAT.format(Date(args.date * 1000))
         binding.forecastIcon.load("http://openweathermap.org/img/wn/${args.icon}@2x.png")
+
 
         return binding.root
     }
