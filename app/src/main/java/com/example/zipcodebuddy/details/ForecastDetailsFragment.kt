@@ -5,21 +5,30 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import coil.api.load
 import com.example.zipcodebuddy.TempDisplaySettingManager
 import com.example.zipcodebuddy.databinding.FragmentForecastDetailsBinding
 import com.example.zipcodebuddy.formatTempForDisplay
-import java.text.SimpleDateFormat
-import java.util.*
-
-private val DATE_FORMAT = SimpleDateFormat("MM-dd-yyyy")
 
 
 class ForecastDetailsFragment : Fragment() {
 
     private val args: ForecastDetailsFragmentArgs by navArgs()
-    private val viewModel = ForecastDetailsViewModel()
+
+    private lateinit var viewModelFactory: ForecastDetailsViewModelFactory
+    // 'by' keyword indicates a "delegate": defer some piece of functionality
+    // to this other class (viewModels);
+    // Hands us back a viewmodel that's automatically cached and saved
+    // whenever screen rotates or is otherwise updated;
+    // We now don't have to recreate this data every time the screen rotates;
+    private val viewModel: ForecastDetailsViewModel by viewModels(
+        // Can now pass in args to the constructor of the viewModel;
+        factoryProducer = { viewModelFactory }
+    )
+
     private var _binding: FragmentForecastDetailsBinding? = null
     // Property only valid between onCreateView and onDestroyView;
     // !! enforces the type of the binding property to be non-null;
@@ -33,20 +42,26 @@ class ForecastDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentForecastDetailsBinding.inflate(inflater, container, false)
-
+        viewModelFactory = ForecastDetailsViewModelFactory(args)
         tempDisplaySettingManager = TempDisplaySettingManager(requireContext())
-
-        // Create references to all Views;
-        // These create references to the 'root' property of each View element,
-        // provided they have a corresponding ID in fragment_forecast_details.xml;
-        binding.tempText.text = formatTempForDisplay(args.temp, tempDisplaySettingManager.getTempDisplaySetting())
-        binding.descriptionText.text = args.description
-        binding.dateText.text = DATE_FORMAT.format(Date(args.date * 1000))
-        binding.forecastIcon.load("http://openweathermap.org/img/wn/${args.icon}@2x.png")
-
-
         return binding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val viewStateObserver = Observer<ForecastDetailsViewState> {viewState ->
+            // Update the UI
+            // Create references to all Views;
+            // These create references to the 'root' property of each View element,
+            // provided they have a corresponding ID in fragment_forecast_details.xml;
+            binding.tempText.text = formatTempForDisplay(viewState.temp, tempDisplaySettingManager.getTempDisplaySetting())
+            binding.descriptionText.text = viewState.description
+            binding.dateText.text = viewState.date
+            binding.forecastIcon.load(viewState.iconUrl)
+        }
+        viewModel.viewState.observe(viewLifecycleOwner, viewStateObserver)
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
