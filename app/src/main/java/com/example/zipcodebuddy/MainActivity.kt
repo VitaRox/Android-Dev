@@ -50,7 +50,6 @@ class MainActivity : AppCompatActivity() {
         // Handle item selection, check id and respond accordingly;
         return when (item.itemId) {
             R.id.tempDisplaySetting -> {
-//               Toast.makeText(this, "clicked menu item", Toast.LENGTH_SHORT).show()
                 showTempDisplaySettingDialog(this, tempDisplaySettingManager)
                 true
             }

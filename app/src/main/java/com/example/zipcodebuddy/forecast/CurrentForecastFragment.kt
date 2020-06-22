@@ -44,6 +44,7 @@ class CurrentForecastFragment : Fragment() {
         val currentWeatherObserver = Observer<CurrentWeather> { weather ->
             // TODO: fix flashing UI when data state changes;
             emptyText.visibility = View.GONE
+            progressBar.visibility = View.GONE
             locationName.visibility = View.VISIBLE
             tempText.visibility = View.VISIBLE
 
@@ -67,7 +68,10 @@ class CurrentForecastFragment : Fragment() {
         locationRepository = LocationRepository(requireContext())
         val savedLocationObserver = Observer<Location> {savedLocation ->
             when (savedLocation) {
-                is Location.Zipcode -> forecastRepository.loadCurrentForecast(savedLocation.zipcode)
+                is Location.Zipcode -> {
+                    progressBar.visibility = View.VISIBLE
+                    forecastRepository.loadCurrentForecast(savedLocation.zipcode)
+                }
             }
         }
         locationRepository.savedLocation.observe(viewLifecycleOwner,  savedLocationObserver)
