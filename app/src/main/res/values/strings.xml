@@ -1,8 +1,17 @@
 <resources>
-    <string name="app_name">Zipcode Buddy</string>
-    <string name="title"># Zip Code Buddy #</string>
+    <string name="app_name">AD 340 Weather</string>
+    <string name="title">AD340 Weather</string>
     <string name="enter_button">Submit Zip Code</string>
     <string name="user_inputField">Please enter your postal code here, pal: </string>
     <string name="user_inputError">Please enter a valid postal code PLZ</string>
     <string name="pic_description">A picture of a navigation arrow</string>
+    <string name="forecast_details">Forecast Details</string>
+    <string name="unit_display_type_title">Display Units</string>
+    <string name="bottom_nav_label_today">Today</string>
+    <string name="bottom_nav_label_weekly">Weekly</string>
+    <!--    Format our temperature values;-->
+    <!--    %<number> indicates the number of the item in it, .2f means a float truncated to hundreds
+place, and $s tells it the second part (the text) is a string-->
+    <string name="forecast_clicked_format">Forecast: %1$.2f %2$s</string>
+
 </resources>

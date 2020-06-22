@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#1D2FA5</color>
-    <color name="colorPrimaryDark">#AFD6C8</color>
-    <color name="colorAccent">#E64A19</color>
+    <color name="colorPrimary">#BC8F20</color>
+    <color name="colorPrimaryDark">#873232</color>
+    <color name="colorAccent">#ffaf</color>
+    <color name="forecast_item_background">#265DCC</color>
+    <color name="razzle_dazzle">#830A3A</color>
+    <color name="title_bar">#811C1FC5</color>
 </resources>
+
