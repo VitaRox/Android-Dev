@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -34,14 +35,20 @@ class CurrentForecastFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_current_forecast, container, false)
         val locationName: TextView = view.findViewById(R.id.locationName)
         val tempText: TextView = view.findViewById(R.id.tempText)
+        val emptyText = view.findViewById<TextView>(R.id.emptyText)
+        val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
 
         tempDisplaySettingManager = TempDisplaySettingManager(requireContext())
 
         // Create the observer which updates the UI in response to forecast updates;
         val currentWeatherObserver = Observer<CurrentWeather> { weather ->
+            // TODO: fix flashing UI when data state changes;
+            emptyText.visibility = View.GONE
+            locationName.visibility = View.VISIBLE
+            tempText.visibility = View.VISIBLE
+
             locationName.text = weather.name
             tempText.text = formatTempForDisplay(weather.forecast.temp, tempDisplaySettingManager.getTempDisplaySetting())
-
         }
 
         // All changes/updates will be bound to the lifecycle of the Activity;
